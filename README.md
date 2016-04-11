@@ -1,2 +1,3 @@
 # Countdown-Project
-End of first year C programming assignment 
+End of first year programming assignment written in C 
+
