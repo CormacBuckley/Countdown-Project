@@ -1,0 +1,189 @@
+// Countdown.cpp : Defines the entry point for the console application.
+//
+#include "time.h"
+#include <stdio.h>
+#include <string.h>
+#include "stdafx.h"
+#include "windows.h"
+#include "stdlib.h"
+#include "ctime"
+
+#define EIGHT_FACTORIAL 40320
+static size_t pos = 0;
+static char Mixup[EIGHT_FACTORIAL][8];
+
+void swap(char *x, char *y) {
+	char temp;
+	temp = *x;
+	*x = *y;
+	*y = temp;
+}
+
+void permute(char *a, int l, int r) {
+	int i;
+	if (l == r) {
+		memcpy(Mixup[pos++], a, 10);
+
+	}
+	else {
+		for (i = l; i <= r; i++) {
+			swap((a + l), (a + i));
+			permute(a, l + 1, r);
+			swap((a + l), (a + i));
+		}
+	}
+}
+
+int main() {
+	int i;
+	char play;
+	int points = 0;
+	int o = 0;
+	int a;
+	char c;
+	int h = 0;
+	int q = 0;
+	char wrds[80000][9];
+	char usrwrd[9];
+	char vowels[6] = { 'a', 'e', 'i', 'o', 'u', 't' };
+	char consonants[21] = { 'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'x', 'z', 'w', 'y' };
+	char letters[9];
+
+	int w = 0;
+	time_t t;
+
+	FILE * fptr;
+
+	fptr = fopen("C:\\words.txt", "r");
+
+	i = 0;
+
+	fscanf(fptr, "%s\n", wrds[i]);
+
+
+	i++;
+
+	while (!feof(fptr))
+	{
+		fscanf(fptr, "%s\n", wrds[i]);
+		
+		i++;
+	}
+
+
+
+	srand((unsigned)time(&t));
+
+	printf("Countdown Game!\n");
+	printf("Instructions: \n 1) Enter your choice of vowels/consonants to get your letters. \n 2) Once the timer runs out enter the longest word you could make.\n");
+	printf(" 3) You will recieve a score for your entered word. \n 4) You will be shown the largest possible word that could have been made\n ");
+	printf("\nPress enter to begin!\n--------------------------------------------------------------------------------");
+	getchar();
+
+		do {
+
+			printf("Enter (v/c): ");
+			scanf("%c", &c);
+
+			if (c == 'v') {
+				letters[q] = vowels[rand() % (4 + 1 - 0) + 0];
+				printf("\t\t\t\t%c \n", letters[q]);
+				q++;
+			}
+			else if (c == 'c') {
+				letters[q] = consonants[rand() % (20 + 1 - 0) + 0];
+				printf("\t\t\t\t%c \n", letters[q]);
+				q++;
+
+
+			}
+			fflush(stdin);
+			fflush(stdout);
+
+		} while (q < 8);
+		for (int e = 0; e < 8; e++) {
+			printf(" %c ", letters[e]);
+		}
+
+		printf("\nCountdown!\n\n");
+
+
+		char str[] = "abcdefg";
+		int n = strlen(str);
+		permute(letters, 0, n - 1);
+
+
+
+
+		for (i = 30; i >= 1; i--) {
+			Sleep(1000);
+
+			if (i == 30 || i == 20 || i == 10 || i <= 5)
+			{
+				printf("%d seconds left! \n", i);
+			}
+			if (i == 1)
+			{
+				printf("%d second left! \n", i);
+			}
+		}
+		if (i == 0) {
+			printf("Time's up.\n");
+		}
+		printf("Your word is: ");
+		scanf("%s", usrwrd);
+		printf("\n");
+
+		
+		points = points + strlen(usrwrd);
+		printf("Points awarded: %d\n\n", points);
+		
+
+		int m = 0;
+		int one = 0;
+		bool stop = false;
+
+		for (int y = 0; (y < EIGHT_FACTORIAL) && !stop; y++) {
+			for (m = 0; m < 79339; m++) {
+
+
+				if (strlen(wrds[m]) == 8 && Mixup[y][0] == wrds[m][0] && Mixup[y][1] == wrds[m][1] && Mixup[y][2] == wrds[m][2] && Mixup[y][3] == wrds[m][3] && Mixup[y][4] == wrds[m][4] && Mixup[y][5] == wrds[m][5] && Mixup[y][6] == wrds[m][6] && Mixup[y][7] == wrds[m][7])
+				{
+					printf("Longest word was %s  [%d]\n", wrds[m], strlen(wrds[m]));
+					stop = true;
+				}
+
+				else {
+					if (strlen(wrds[m]) == 7 && Mixup[y][0] == wrds[m][0] && Mixup[y][1] == wrds[m][1] && Mixup[y][2] == wrds[m][2] && Mixup[y][3] == wrds[m][3] && Mixup[y][4] == wrds[m][4] && Mixup[y][5] == wrds[m][5] && Mixup[y][6] == wrds[m][6])
+					{
+						printf("Longest word was %s  [%d]\n", wrds[m], strlen(wrds[m]));
+						stop = true;
+					}
+					else {
+						if (strlen(wrds[m]) == 6 && Mixup[y][0] == wrds[m][0] && Mixup[y][1] == wrds[m][1] && Mixup[y][2] == wrds[m][2] && Mixup[y][3] == wrds[m][3] && Mixup[y][4] == wrds[m][4] && Mixup[y][5] == wrds[m][5])
+						{
+							printf("Longest word was %s  [%d]\n", wrds[m], strlen(wrds[m]));
+							stop = true;
+						}
+
+						else {
+							if (strlen(wrds[m]) == 5 && Mixup[y][0] == wrds[m][0] && Mixup[y][1] == wrds[m][1] && Mixup[y][2] == wrds[m][2] && Mixup[y][3] == wrds[m][3] && Mixup[y][4] == wrds[m][4])
+							{
+								printf("Longest word was %s  [%d]\n", wrds[m], strlen(wrds[m]));
+								stop = true;
+							}
+							else {
+								if (strlen(wrds[m]) == 4 && Mixup[y][0] == wrds[m][0] && Mixup[y][1] == wrds[m][1] && Mixup[y][2] == wrds[m][2] && Mixup[y][3] == wrds[m][3])
+								{
+									printf("Longest word was %s  [%d]\n", wrds[m], strlen(wrds[m]));
+									stop = true;
+								}
+							}
+						}
+					}
+				}
+
+			}
+
+		}
+}
